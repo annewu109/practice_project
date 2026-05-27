@@ -18,6 +18,8 @@ def sent_analyzer():
     '''
     text_to_analyze = request.args.get('textToAnalyze')
     response = sentiment_analyzer(text_to_analyze)
+    if response['label'] is None and response['score'] is None:
+        return "Invalid input! Try again."
     sentiment = response['label'].split('_')[1]
     score = response['score']
     return f"The given text has been identified as {sentiment} with a score of {score}."
@@ -30,6 +32,5 @@ def render_index_page():
     return render_template("index.html")
 
 if __name__ == "__main__":
-    ''' This functions executes the flask app and deploys it on localhost:5000
-    '''
+    # This functions executes the flask app and deploys it on localhost:5000
     app.run(host="0.0.0.0", port=5000)
